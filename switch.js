@@ -8,64 +8,29 @@
     return;
   }
   
-  /**
-   * @function darkmode
-   * @summary: changes the theme to 'dark mode' and save settings to local stroage.
-   * Basically, replaces/toggles every CSS class that has '-light' class with '-dark'
-   */
-  function darkMode() {
-    document.querySelectorAll(".bg-light").forEach((element) => {
-      element.className = element.className.replace(/-light/g, "-dark");
-    });
+function darkMode() {
+  document.body.classList.remove("bg-light", "text-dark");
+  document.body.classList.add("bg-dark", "text-light");
 
-    document.body.classList.add("bg-dark");
+  lightSwitch.checked = true;
+  localStorage.setItem("lightSwitch", "dark");
+}
 
-    if (document.body.classList.contains("text-dark")) {
-      document.body.classList.replace("text-dark", "text-light");
-    } else {
-      document.body.classList.add("text-light");
-    }
-    
-    // set light switch input to true
-    if (! lightSwitch.checked) {
-      lightSwitch.checked = true;
-    }
-    localStorage.setItem("lightSwitch", "dark");
-  }
+function lightMode() {
+  document.body.classList.remove("bg-dark", "text-light");
+  document.body.classList.add("bg-light", "text-dark");
 
-  /**
-   * @function lightmode
-   * @summary: changes the theme to 'light mode' and save settings to local stroage.
-   */
-  function lightMode() {
-    document.querySelectorAll(".bg-dark").forEach((element) => {
-      element.className = element.className.replace(/-dark/g, "-light");
-    });
+  lightSwitch.checked = false;
+  localStorage.setItem("lightSwitch", "light");
+}
 
-    document.body.classList.add("bg-light");
 
-    if (document.body.classList.contains("text-light")) {
-      document.body.classList.replace("text-light", "text-dark");
-    } else {
-      document.body.classList.add("text-dark");
-    }
-    
-    if (lightSwitch.checked) {
-      lightSwitch.checked = false;
-    }
-    localStorage.setItem("lightSwitch", "light");
-  }
-  
   /**
    * @function onToggleMode
    * @summary: the event handler attached to the switch. calling @darkMode or @lightMode depending on the checked state.
    */
   function onToggleMode() {
-    if (lightSwitch.checked) {
-      darkMode();
-    } else {
-      lightMode();
-    }
+    lightSwitch.checked ? darkMode() : lightMode();
   }
   
   /**
